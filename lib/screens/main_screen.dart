@@ -24,14 +24,23 @@ class _MainScreenState extends State<MainScreen> {
     'Arsip',
   ];
 
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_titles[_currentIndex]),
+        automaticallyImplyLeading: false, // Menghilangkan panah kembali
         actions: [
           IconButton(
-            icon: Icon(Icons.account_circle),
+            icon: CircleAvatar(
+              backgroundImage: NetworkImage('URL_AVATAR_USER'), // Ganti dengan data dari AuthProvider
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -44,24 +53,11 @@ class _MainScreenState extends State<MainScreen> {
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onTap: _onTabTapped,
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Tambah',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.archive),
-            label: 'Arsip',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Tambah'),
+          BottomNavigationBarItem(icon: Icon(Icons.archive), label: 'Arsip'),
         ],
       ),
     );
