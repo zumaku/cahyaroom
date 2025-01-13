@@ -1,4 +1,4 @@
-package com.cahyaroom.app.cahyaroom
+package com.cahyaroom.app
 
 import io.flutter.embedding.android.FlutterActivity
 

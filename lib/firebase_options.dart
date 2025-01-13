@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     projectId: 'cahyaroom-3bfdb',
     storageBucket: 'cahyaroom-3bfdb.firebasestorage.app',
     iosClientId: '91234346264-vdf49b336m4g5981mv9mpv10b20jvuvg.apps.googleusercontent.com',
-    iosBundleId: 'com.cahyaroom.app.cahyaroom',
+    iosBundleId: 'com.cahyaroom.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -77,6 +77,6 @@ class DefaultFirebaseOptions {
     projectId: 'cahyaroom-3bfdb',
     storageBucket: 'cahyaroom-3bfdb.firebasestorage.app',
     iosClientId: '91234346264-vdf49b336m4g5981mv9mpv10b20jvuvg.apps.googleusercontent.com',
-    iosBundleId: 'com.cahyaroom.app.cahyaroom',
+    iosBundleId: 'com.cahyaroom.app',
   );
 }
