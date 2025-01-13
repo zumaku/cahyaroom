@@ -21,6 +21,16 @@ class MyApp extends StatelessWidget {
       child: Consumer<AuthProvider>(
         builder: (context, authProvider, child) {
           return MaterialApp(
+            theme: ThemeData(
+              primarySwatch: Colors.pink,
+              scaffoldBackgroundColor: Colors.pink[50],
+              iconTheme: IconThemeData(color: Colors.pink), // Warna ikon umum
+              appBarTheme: AppBarTheme(
+                iconTheme: IconThemeData(color: Colors.white), // Warna ikon di AppBar
+                backgroundColor: Colors.pink, // Warna latar belakang AppBar
+                titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
             home: authProvider.user == null ? LoginScreen() : MainScreen(),
           );
         },
