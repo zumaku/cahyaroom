@@ -1,5 +1,6 @@
 import 'package:cahyaroom/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
 import 'home_screen.dart';
 import 'tambah_screen.dart';
@@ -36,51 +37,105 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
-    
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_currentIndex]),
+        title: Text(
+          _titles[_currentIndex],
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         automaticallyImplyLeading: false, // Menghilangkan panah kembali
-        actions: [
-          IconButton(
-            icon: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  user!.photoUrl!), // Ganti dengan data dari AuthProvider
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.pinkAccent, Colors.pink],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()),
-              );
-            },
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: IconButton(
+              icon: CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(user!.photoUrl!),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+            ),
           ),
         ],
       ),
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        selectedLabelStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.pink.shade400, Colors.pinkAccent, Colors.pink.shade300],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0, -3),
+              blurRadius: 8,
+            ),
+          ],
         ),
-        selectedItemColor: Colors.pink, // Warna ikon aktif
-        unselectedItemColor: Colors.grey, // Warna ikon tidak aktif
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Tambah',
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: _onTabTapped,
+            backgroundColor: Colors.transparent,
+            selectedLabelStyle: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white70,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  HugeIcons.strokeRoundedHome01,
+                  size: 28, // Ukuran ikon disesuaikan
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  HugeIcons.strokeRoundedAddSquare,
+                  size: 28,
+                ),
+                label: 'Tambah',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  HugeIcons.strokeRoundedArchive02,
+                  size: 28,
+                ),
+                label: 'Arsip',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.archive),
-            label: 'Arsip',
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cahyaroom/screens/detail_transaction_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Text('Total Hari Ini',
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
                             Text(DateFormat("dd MMM yyyy")
                                 .format(DateTime.now()), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.pink),),
                           ],
@@ -56,15 +57,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 10),
                         Row(
                           children: [
-                            Icon(Icons.arrow_upward, color: Colors.red),
+                            Icon(Icons.arrow_outward_sharp, color: Colors.red),
                             Text(
                               'Pengeluaran: ${formatCurrency.format(transactionProvider.transactions.where((t) => t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
                             ),
                           ],
                         ),
+                        SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.arrow_downward, color: Colors.green),
+                            Icon(Icons.arrow_outward_sharp, color: Colors.green),
                             Text(
                               'Pemasukan: ${formatCurrency.format(transactionProvider.transactions.where((t) => !t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
                             ),
@@ -98,6 +100,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         // subtitle: TimestampConverter(timestamp: transaction.date,),
                         trailing:
                             Text(formatCurrency.format(transaction.amount), style: TextStyle(fontSize: 14),),
+                        onTap: () {
+                          // Navigasi ke halaman detail saat item diklik
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailTransactionScreen(transaction: transaction),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
