@@ -39,7 +39,8 @@ class _MainScreenState extends State<MainScreen> {
         actions: [
           IconButton(
             icon: CircleAvatar(
-              backgroundImage: NetworkImage('URL_AVATAR_USER'), // Ganti dengan data dari AuthProvider
+              backgroundImage: NetworkImage(
+                  'URL_AVATAR_USER'), // Ganti dengan data dari AuthProvider
             ),
             onPressed: () {
               Navigator.push(
@@ -54,10 +55,26 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
+        selectedLabelStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+        selectedItemColor: Colors.pink, // Warna ikon aktif
+        unselectedItemColor: Colors.grey, // Warna ikon tidak aktif
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.pink,), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add, color: Colors.pink), label: 'Tambah'),
-          BottomNavigationBarItem(icon: Icon(Icons.archive, color: Colors.pink), label: 'Arsip'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Tambah',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.archive),
+            label: 'Arsip',
+          ),
         ],
       ),
     );
