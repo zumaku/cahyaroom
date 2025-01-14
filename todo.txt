@@ -1,0 +1,7 @@
+14 Januari 2025
+---
+[*] Ganti warna icon
+[*] Buat dumy data di firebase
+[] Buat tampilan awal homescreen
+[] Read data dari firebase
+
