@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             theme: ThemeData(
               primarySwatch: Colors.pink,
-              scaffoldBackgroundColor: Colors.pink[50],
+              scaffoldBackgroundColor: Colors.white,
               iconTheme: IconThemeData(color: Colors.pink), // Warna ikon umum
               appBarTheme: AppBarTheme(
                 iconTheme: IconThemeData(color: Colors.white), // Warna ikon di AppBar
