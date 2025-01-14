@@ -55,9 +55,9 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Tambah'),
-          BottomNavigationBarItem(icon: Icon(Icons.archive), label: 'Arsip'),
+          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.pink,), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.add, color: Colors.pink), label: 'Tambah'),
+          BottomNavigationBarItem(icon: Icon(Icons.archive, color: Colors.pink), label: 'Arsip'),
         ],
       ),
     );
