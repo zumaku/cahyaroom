@@ -1,6 +1,7 @@
 import 'package:cahyaroom/screens/detail_transaction_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
@@ -37,38 +38,79 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 // Card untuk Total Pemasukan dan Pengeluaran
                 Card(
-                  margin: EdgeInsets.all(16),
-                  color: Colors.pink[40],
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  margin: EdgeInsets.all(10),
+                  elevation: 5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color.fromARGB(255, 233, 89, 137),
+                          const Color.fromARGB(255, 255, 144, 181),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: EdgeInsets.all(18),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Total Hari Ini',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
-                            Text(DateFormat("dd MMM yyyy")
-                                .format(DateTime.now()), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.pink),),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Icon(Icons.arrow_outward_sharp, color: Colors.red),
+                            Row(
+                              children: [
+                                Text(
+                                  'Total Hari Ini',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(width: 6),
+                                Icon(
+                                  HugeIcons.strokeRoundedCalendar02,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
                             Text(
-                              'Pengeluaran: ${formatCurrency.format(transactionProvider.transactions.where((t) => t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
+                              DateFormat("dd MMM yyyy").format(DateTime.now()),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 15),
                         Row(
                           children: [
-                            Icon(Icons.arrow_outward_sharp, color: Colors.green),
+                            Icon(HugeIcons.strokeRoundedArrowUpRight01,
+                                color: Colors.white, size: 24),
+                            SizedBox(width: 8),
+                            Text(
+                              'Pengeluaran: ${formatCurrency.format(transactionProvider.transactions.where((t) => t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        // SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Icon(HugeIcons.strokeRoundedArrowDownLeft01,
+                                color: Colors.white, size: 24),
+                            SizedBox(width: 8),
                             Text(
                               'Pemasukan: ${formatCurrency.format(transactionProvider.transactions.where((t) => !t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
                             ),
                           ],
                         ),
@@ -86,26 +128,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ListTile(
                         leading: Icon(
                           transaction.isSpend
-                              ? Icons.arrow_upward
-                              : Icons.arrow_downward,
+                              ? HugeIcons.strokeRoundedMoneySend02
+                              : HugeIcons.strokeRoundedMoneyReceive02,
                           color:
-                              transaction.isSpend ? Colors.red : Colors.green,
+                              transaction.isSpend ? Colors.pink : Colors.green.shade600,
                         ),
-                        title: Text(transaction.name, style: TextStyle(fontWeight: FontWeight.w500)),
+                        title: Text(transaction.name,
+                            style: TextStyle(fontWeight: FontWeight.w500)),
                         subtitle: Text(
                           transaction.date != null
                               ? DateFormat('h:mm').format(transaction.date)
                               : 'Waktu tidak tersedia',
                         ),
                         // subtitle: TimestampConverter(timestamp: transaction.date,),
-                        trailing:
-                            Text(formatCurrency.format(transaction.amount), style: TextStyle(fontSize: 14),),
+                        trailing: Text(
+                          formatCurrency.format(transaction.amount),
+                          style: TextStyle(fontSize: 14),
+                        ),
                         onTap: () {
                           // Navigasi ke halaman detail saat item diklik
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailTransactionScreen(transaction: transaction),
+                              builder: (context) => DetailTransactionScreen(
+                                  transaction: transaction),
                             ),
                           );
                         },

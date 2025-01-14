@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final List<String> _titles = [
-    'Home',
+    'CahyaRoom',
     'Tambah',
     'Arsip',
   ];
@@ -45,19 +45,10 @@ class _MainScreenState extends State<MainScreen> {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.pink,
           ),
         ),
         automaticallyImplyLeading: false, // Menghilangkan panah kembali
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.pinkAccent, Colors.pink],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -78,24 +69,6 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.pink.shade400, Colors.pinkAccent, Colors.pink.shade300],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, -3),
-              blurRadius: 8,
-            ),
-          ],
-        ),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
@@ -104,13 +77,14 @@ class _MainScreenState extends State<MainScreen> {
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: _onTabTapped,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.pinkAccent,
+            // backgroundColor: const Color.fromARGB(255, 248, 190, 209),
             selectedLabelStyle: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
             selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white70,
+            unselectedItemColor: Colors.white60,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(

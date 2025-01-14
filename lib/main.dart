@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: Colors.white,
               iconTheme: IconThemeData(color: Colors.pink), // Warna ikon umum
               appBarTheme: AppBarTheme(
-                iconTheme: IconThemeData(color: Colors.white), // Warna ikon di AppBar
-                backgroundColor: Colors.pink, // Warna latar belakang AppBar
-                titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+                iconTheme: IconThemeData(color: Colors.pink), // Warna ikon di AppBar
+                backgroundColor: Colors.white, // Warna latar belakang AppBar
+                titleTextStyle: TextStyle(color: Colors.pink, fontSize: 20),
               ),
             ),
             home: authProvider.user == null ? LoginScreen() : MainScreen(),
