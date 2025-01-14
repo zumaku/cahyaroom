@@ -1,4 +1,6 @@
+import 'package:cahyaroom/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'home_screen.dart';
 import 'tambah_screen.dart';
 import 'arsip_screen.dart';
@@ -32,6 +34,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(_titles[_currentIndex]),
@@ -40,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             icon: CircleAvatar(
               backgroundImage: NetworkImage(
-                  'URL_AVATAR_USER'), // Ganti dengan data dari AuthProvider
+                  user!.photoUrl!), // Ganti dengan data dari AuthProvider
             ),
             onPressed: () {
               Navigator.push(
