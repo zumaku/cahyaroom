@@ -37,15 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Card untuk Total Pemasukan dan Pengeluaran
                 Card(
                   margin: EdgeInsets.all(16),
-                  surfaceTintColor: Colors.pink[100],
+                  color: Colors.pink[40],
                   child: Padding(
                     padding: EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Total Hari Ini',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Total Hari Ini',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            Text(DateFormat("dd MMM yyyy")
+                                .format(DateTime.now()), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.pink),),
+                          ],
+                        ),
                         SizedBox(height: 10),
                         Row(
                           children: [
@@ -82,16 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           color:
                               transaction.isSpend ? Colors.red : Colors.green,
                         ),
-                        title: Text(transaction.name),
+                        title: Text(transaction.name, style: TextStyle(fontWeight: FontWeight.w500)),
                         subtitle: Text(
                           transaction.date != null
-                              ? DateFormat('dd MMMM yyyy')
-                                  .format(transaction.date)
-                              : 'Tanggal tidak tersedia',
+                              ? DateFormat('h:mm').format(transaction.date)
+                              : 'Waktu tidak tersedia',
                         ),
                         // subtitle: TimestampConverter(timestamp: transaction.date,),
                         trailing:
-                            Text(formatCurrency.format(transaction.amount)),
+                            Text(formatCurrency.format(transaction.amount), style: TextStyle(fontSize: 14),),
                       );
                     },
                   ),
