@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "91234346264-pleeit5sg6r3tc8tjktjt7k3qd3h51so.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.cahyaroom.app",
-            "certificate_hash": "242ea97e077427f4e3a3ee97fb6a9a4ef3f93db5"
-          }
-        },
-        {
           "client_id": "91234346264-qv4s4gdcia3gg4205v5r91kfn1dvj49n.apps.googleusercontent.com",
           "client_type": 3
         }
