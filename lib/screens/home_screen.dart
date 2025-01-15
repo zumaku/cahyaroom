@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     padding: EdgeInsets.all(18),
-                    child: Column(
+                    child: SingleChildScrollView(child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ],
-                    ),
+                    )),
                   ),
                 ),
                 // List Transaksi

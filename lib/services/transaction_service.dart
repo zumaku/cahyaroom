@@ -18,4 +18,14 @@ class TransactionService {
 
     return snapshot.docs.map((doc) => TransactionModel.fromFirestore(doc)).toList();
   }
+
+  Future<void> addTransaction(TransactionModel transaction) async {
+    await _firestore.collection('transactions').add({
+      'isSpend': transaction.isSpend,
+      'name': transaction.name,
+      'amount': transaction.amount,
+      'date': Timestamp.fromDate(transaction.date),
+      'note': transaction.note,
+    });
+  }
 }

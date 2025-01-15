@@ -23,4 +23,23 @@ class TransactionProvider with ChangeNotifier {
     _loading = false;
     notifyListeners();
   }
+
+  Future<void> addTransaction({
+    required bool isSpend,
+    required String name,
+    required double amount,
+    required String note,
+  }) async {
+    final newTransaction = TransactionModel(
+      id: '', // ID akan dihasilkan oleh Firestore
+      isSpend: isSpend,
+      name: name,
+      amount: amount,
+      date: DateTime.now(),
+      note: note,
+    );
+    await TransactionService().addTransaction(newTransaction);
+    _transactions.add(newTransaction);
+    notifyListeners();
+  }
 }
