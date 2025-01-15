@@ -133,11 +133,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           color:
                               transaction.isSpend ? Colors.pink : Colors.green.shade600,
                         ),
-                        title: Text(transaction.name,
-                            style: TextStyle(fontWeight: FontWeight.w500)),
+                        title: Flexible(child: Text(transaction.name, style: TextStyle(fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis)),
                         subtitle: Text(
                           transaction.date != null
-                              ? DateFormat('h:mm').format(transaction.date)
+                              ? DateFormat('HH:mm').format(transaction.date)
                               : 'Waktu tidak tersedia',
                         ),
                         // subtitle: TimestampConverter(timestamp: transaction.date,),

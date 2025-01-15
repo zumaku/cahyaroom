@@ -2,6 +2,6 @@
 ---
 [*] Ganti warna icon
 [*] Buat dumy data di firebase
-[] Buat tampilan awal homescreen
-[] Read data dari firebase
+[*] Buat tampilan awal homescreen
+[*] Read data dari firebase
 

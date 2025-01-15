@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final List<String> _titles = [
-    'CahyaRoom',
+    'Beranda',
     'Tambah',
     'Arsip',
   ];
@@ -77,21 +77,25 @@ class _MainScreenState extends State<MainScreen> {
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: _onTabTapped,
-            backgroundColor: Colors.pinkAccent,
+            backgroundColor: const Color.fromARGB(255, 250, 250, 250),
+            // backgroundColor: Colors.pinkAccent,
             // backgroundColor: const Color.fromARGB(255, 248, 190, 209),
             selectedLabelStyle: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white60,
+            unselectedLabelStyle: TextStyle(
+              color: Colors.grey,
+            ),
+            selectedItemColor: Colors.pink,
+            unselectedItemColor: Colors.grey,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(
                   HugeIcons.strokeRoundedHome01,
                   size: 28, // Ukuran ikon disesuaikan
                 ),
-                label: 'Home',
+                label: 'Beranda',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
