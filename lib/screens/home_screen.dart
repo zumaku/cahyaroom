@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ))
           : Column(
               children: [
-                // Card untuk Total Pemasukan dan Pengeluaran
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -131,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? HugeIcons.strokeRoundedMoneySend02
                               : HugeIcons.strokeRoundedMoneyReceive02,
                           color:
-                              transaction.isSpend ? Colors.pink : Colors.green.shade600,
+                              transaction.isSpend ? Colors.red : Colors.green.shade600,
                         ),
                         title: Flexible(child: Text(transaction.name, style: TextStyle(fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis)),
                         subtitle: Text(

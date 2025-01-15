@@ -17,7 +17,8 @@ class TransactionProvider with ChangeNotifier {
 
     // Tambahkan log untuk memeriksa data transaksi
     for (var transaction in _transactions) {
-      print('Transaction: ${transaction.name}, isSpend: ${transaction.isSpend}, amount: ${transaction.amount}');
+      print(
+          'Transaction: ${transaction.name}, isSpend: ${transaction.isSpend}, amount: ${transaction.amount}');
     }
 
     _loading = false;
@@ -40,6 +41,30 @@ class TransactionProvider with ChangeNotifier {
     );
     await TransactionService().addTransaction(newTransaction);
     _transactions.add(newTransaction);
+    notifyListeners();
+  }
+
+  Future<void> updateTransaction({
+    required String id,
+    required bool isSpend,
+    required String name,
+    required double amount,
+    required String note,
+  }) async {
+    await TransactionService().updateTransaction(
+      id: id,
+      isSpend: isSpend,
+      name: name,
+      amount: amount,
+      note: note,
+    );
+    await fetchTodayTransactions(); // Perbarui data lokal setelah update
+    notifyListeners();
+  }
+
+  Future<void> deleteTransaction(String id) async {
+    await TransactionService().deleteTransaction(id);
+    await fetchTodayTransactions(); // Perbarui data setelah penghapusan
     notifyListeners();
   }
 }

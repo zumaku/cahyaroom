@@ -2,54 +2,88 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart'; // Pastikan menggunakan paket Huge Icons
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
+import '../models/transaction_model.dart';
 
-class TambahScreen extends StatefulWidget {
+class EditScreen extends StatefulWidget {
+  final TransactionModel transaction;
+
+  EditScreen({required this.transaction});
+
   @override
-  _TambahScreenState createState() => _TambahScreenState();
+  _EditScreenState createState() => _EditScreenState();
 }
 
-class _TambahScreenState extends State<TambahScreen> {
+class _EditScreenState extends State<EditScreen> {
   final _formKey = GlobalKey<FormState>();
-  bool _isSpend = true;
-  String _name = '';
-  double _amount = 0.0;
-  String _note = '';
+  late bool _isSpend;
+  late String _name;
+  late double _amount;
+  late String _note;
+
+  @override
+  void initState() {
+    super.initState();
+    _isSpend = widget.transaction.isSpend;
+    _name = widget.transaction.name;
+    _amount = widget.transaction.amount;
+    _note = widget.transaction.note ?? '';
+  }
 
   void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      Provider.of<TransactionProvider>(context, listen: false)
-          .addTransaction(
-        isSpend: _isSpend,
-        name: _name,
-        amount: _amount,
-        note: _note,
-      )
-          .then((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Transaksi berhasil ditambahkan!'),
-            backgroundColor: Colors.pinkAccent,
-          ),
-        );
-        _formKey.currentState!.reset();
-        setState(() {
-          _isSpend = true;
-        });
-      }).catchError((error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Terjadi kesalahan, coba lagi.'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      });
-    }
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
+    Provider.of<TransactionProvider>(context, listen: false)
+        .updateTransaction(
+      id: widget.transaction.id,
+      isSpend: _isSpend,
+      name: _name,
+      amount: _amount,
+      note: _note,
+    )
+        .then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Transaksi berhasil diperbarui!'),
+          backgroundColor: Colors.pinkAccent,
+        ),
+      );
+      Navigator.pop(
+        context,
+        TransactionModel(
+          id: widget.transaction.id,
+          isSpend: _isSpend,
+          name: _name,
+          amount: _amount,
+          date: widget.transaction.date,
+          note: _note,
+        ),
+      );
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Terjadi kesalahan, coba lagi.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            HugeIcons.strokeRoundedEditOff,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -70,11 +104,11 @@ class _TambahScreenState extends State<TambahScreen> {
                         HugeIcons.strokeRoundedMoneyReceive02),
                   ],
                 ),
-
                 SizedBox(height: 20),
                 _buildTextInput(
                   label: 'Nama Transaksi',
                   icon: HugeIcons.strokeRoundedWallet01,
+                  initialValue: _name,
                   onSaved: (value) => _name = value!,
                   validator: (value) => value == null || value.isEmpty
                       ? 'Nama transaksi wajib diisi'
@@ -85,6 +119,7 @@ class _TambahScreenState extends State<TambahScreen> {
                   label: 'Jumlah',
                   icon: HugeIcons.strokeRoundedMoney04,
                   keyboardType: TextInputType.number,
+                  initialValue: _amount % 1 == 0 ? _amount.toInt().toString() : _amount.toStringAsFixed(2),
                   onSaved: (value) => _amount = double.parse(value!),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -102,6 +137,7 @@ class _TambahScreenState extends State<TambahScreen> {
                   label: 'Catatan',
                   icon: HugeIcons.strokeRoundedNoteEdit,
                   maxLines: null,
+                  initialValue: _note,
                   onSaved: (value) => _note = value ?? '',
                 ),
                 SizedBox(height: 30),
@@ -112,12 +148,12 @@ class _TambahScreenState extends State<TambahScreen> {
                     backgroundColor: Colors.pinkAccent,
                     foregroundColor: Colors.white,
                     textStyle:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _isSpend ? Colors.pink : Colors.green),
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Center(child: Text('Tambahkan')),
+                  child: Center(child: Text('Perbarui')),
                 ),
               ],
             ),
@@ -177,13 +213,16 @@ class _TambahScreenState extends State<TambahScreen> {
     TextInputType keyboardType = TextInputType.text,
     required FormFieldSetter<String> onSaved,
     FormFieldValidator<String>? validator,
+    String? initialValue,
     int? maxLines,
   }) {
     return TextFormField(
+      initialValue: initialValue,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
-        labelStyle:TextStyle(color: Colors.grey), // Warna label saat tidak fokus
+        labelStyle:
+            TextStyle(color: Colors.grey), // Warna label saat tidak fokus
         floatingLabelStyle: TextStyle(color: Colors.pink),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.pinkAccent, width: 2),

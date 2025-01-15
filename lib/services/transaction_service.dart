@@ -16,7 +16,9 @@ class TransactionService {
         .orderBy('date')
         .get();
 
-    return snapshot.docs.map((doc) => TransactionModel.fromFirestore(doc)).toList();
+    return snapshot.docs
+        .map((doc) => TransactionModel.fromFirestore(doc))
+        .toList();
   }
 
   Future<void> addTransaction(TransactionModel transaction) async {
@@ -27,5 +29,24 @@ class TransactionService {
       'date': Timestamp.fromDate(transaction.date),
       'note': transaction.note,
     });
+  }
+
+  Future<void> updateTransaction({
+    required String id,
+    required bool isSpend,
+    required String name,
+    required double amount,
+    required String note,
+  }) async {
+    await _firestore.collection('transactions').doc(id).update({
+      'isSpend': isSpend,
+      'name': name,
+      'amount': amount,
+      'note': note,
+    });
+  }
+
+  Future<void> deleteTransaction(String id) async {
+    await _firestore.collection('transactions').doc(id).delete();
   }
 }

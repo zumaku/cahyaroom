@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.pink,
+            color: Colors.pinkAccent,
           ),
         ),
         automaticallyImplyLeading: false, // Menghilangkan panah kembali
@@ -87,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
             unselectedLabelStyle: TextStyle(
               color: Colors.grey,
             ),
-            selectedItemColor: Colors.pink,
+            selectedItemColor: Colors.pinkAccent,
             unselectedItemColor: Colors.grey,
             items: [
               BottomNavigationBarItem(
