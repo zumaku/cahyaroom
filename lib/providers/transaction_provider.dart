@@ -67,4 +67,14 @@ class TransactionProvider with ChangeNotifier {
     await fetchTodayTransactions(); // Perbarui data setelah penghapusan
     notifyListeners();
   }
+
+  Future<void> fetchTransactionsByDate(DateTime date) async {
+    _loading = true;
+    notifyListeners();
+
+    _transactions = await TransactionService().getTransactionsByDate(date);
+
+    _loading = false;
+    notifyListeners();
+  }
 }

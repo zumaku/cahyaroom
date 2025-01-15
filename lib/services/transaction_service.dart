@@ -49,4 +49,20 @@ class TransactionService {
   Future<void> deleteTransaction(String id) async {
     await _firestore.collection('transactions').doc(id).delete();
   }
+
+  Future<List<TransactionModel>> getTransactionsByDate(DateTime date) async {
+    final snapshot = await _firestore
+        .collection('transactions')
+        .where('date',
+            isGreaterThanOrEqualTo:
+                Timestamp.fromDate(DateTime(date.year, date.month, date.day)))
+        .where('date',
+            isLessThan: Timestamp.fromDate(
+                DateTime(date.year, date.month, date.day + 1)))
+        .get();
+
+    return snapshot.docs
+        .map((doc) => TransactionModel.fromFirestore(doc))
+        .toList();
+  }
 }
