@@ -65,89 +65,85 @@ class _ArsipScreenState extends State<ArsipScreen> {
               ),
             ),
           ),
-          Column(
-            children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            margin: EdgeInsets.all(10),
+            elevation: 5,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color.fromARGB(255, 233, 89, 137),
+                    const Color.fromARGB(255, 255, 144, 181),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                margin: EdgeInsets.all(10),
-                elevation: 5,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color.fromARGB(255, 233, 89, 137),
-                        const Color.fromARGB(255, 255, 144, 181),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: EdgeInsets.all(18),
-                  child: SingleChildScrollView(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: EdgeInsets.all(18),
+              child: SingleChildScrollView(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Total Hari Ini',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(width: 6),
-                              Icon(
-                                HugeIcons.strokeRoundedCalendar02,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
                           Text(
-                            DateFormat("dd MMM yyyy").format(DateTime.now()),
+                            'Total Hari Ini',
                             style: TextStyle(
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Row(
-                        children: [
-                          Icon(HugeIcons.strokeRoundedArrowUpRight01,
-                              color: Colors.white, size: 24),
-                          SizedBox(width: 8),
-                          Text(
-                            'Pengeluaran: ${formatCurrency.format(transactionProvider.transactions.where((t) => t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          SizedBox(width: 6),
+                          Icon(
+                            HugeIcons.strokeRoundedCalendar02,
+                            color: Colors.white,
                           ),
                         ],
                       ),
-                      // SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(HugeIcons.strokeRoundedArrowDownLeft01,
-                              color: Colors.white, size: 24),
-                          SizedBox(width: 8),
-                          Text(
-                            'Pemasukan: ${formatCurrency.format(transactionProvider.transactions.where((t) => !t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          ),
-                        ],
+                      Text(
+                        DateFormat("dd MMM yyyy").format(_selectedDate),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ],
-                  )),
-                ),
-              ),
-            ],
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Icon(HugeIcons.strokeRoundedArrowUpRight01,
+                          color: Colors.white, size: 24),
+                      SizedBox(width: 8),
+                      Text(
+                        'Pengeluaran: ${formatCurrency.format(transactionProvider.transactions.where((t) => t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  // SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(HugeIcons.strokeRoundedArrowDownLeft01,
+                          color: Colors.white, size: 24),
+                      SizedBox(width: 8),
+                      Text(
+                        'Pemasukan: ${formatCurrency.format(transactionProvider.transactions.where((t) => !t.isSpend).fold(0.0, (sum, t) => sum + t.amount))}',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ],
+              )),
+            ),
           ),
           Expanded(
             child: transactionProvider.loading
