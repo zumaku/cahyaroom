@@ -45,6 +45,31 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Column(
                 children: [
+                  // Card(
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(16),
+                  //   ),
+                  //   margin: EdgeInsets.all(10),
+                  //   elevation: 5,
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       gradient: LinearGradient(
+                  //         colors: [
+                  //           const Color.fromARGB(255, 233, 89, 137),
+                  //           const Color.fromARGB(255, 255, 144, 181),
+                  //         ],
+                  //         begin: Alignment.topLeft,
+                  //         end: Alignment.bottomRight,
+                  //       ),
+                  //       borderRadius: BorderRadius.circular(16),
+                  //     ),
+                  //     padding: EdgeInsets.all(18),
+                  //     child: Column(children: [
+                  //       Text("Pesan otomatis dari zuma", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  //       Text("Lorem ipsun dolar sit amet Lorem ipsun dolar sit amet", style: TextStyle(color: Colors.white)),
+                  //     ]),
+                  //     ),
+                  // ),
                   Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
