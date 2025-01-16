@@ -50,6 +50,7 @@ class TransactionProvider with ChangeNotifier {
     required String name,
     required double amount,
     required String note,
+    required DateTime date
   }) async {
     await TransactionService().updateTransaction(
       id: id,
@@ -57,6 +58,7 @@ class TransactionProvider with ChangeNotifier {
       name: name,
       amount: amount,
       note: note,
+      date: date,
     );
     await fetchTodayTransactions(); // Perbarui data lokal setelah update
     notifyListeners();

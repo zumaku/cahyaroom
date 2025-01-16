@@ -37,9 +37,11 @@ class TransactionService {
     required String name,
     required double amount,
     required String note,
+    required DateTime date,
   }) async {
     await _firestore.collection('transactions').doc(id).update({
       'isSpend': isSpend,
+      'date': date,
       'name': name,
       'amount': amount,
       'note': note,

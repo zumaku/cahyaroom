@@ -55,7 +55,10 @@ class _MainScreenState extends State<MainScreen> {
             child: IconButton(
               icon: CircleAvatar(
                 radius: 20,
-                backgroundImage: NetworkImage(user!.photoUrl!),
+                backgroundImage: user?.photoUrl != null
+                    ? NetworkImage(user!.photoUrl!)
+                    : AssetImage('assets/images/cahya.png')
+                        as ImageProvider,
               ),
               onPressed: () {
                 Navigator.push(

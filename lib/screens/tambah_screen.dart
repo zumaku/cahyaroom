@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart'; // Pastikan menggunakan paket Huge Icons
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
 
@@ -14,6 +15,57 @@ class _TambahScreenState extends State<TambahScreen> {
   String _name = '';
   double _amount = 0.0;
   String _note = '';
+  DateTime _selectedDate = DateTime.now();
+
+  void _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.pinkAccent,
+            colorScheme:
+                ColorScheme.light(primary: Colors.pink), // Warna pemilih
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(_selectedDate),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: Colors.pinkAccent,
+              colorScheme:
+                  ColorScheme.light(primary: Colors.pink), // Warna pemilih
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          _selectedDate = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
+    }
+  }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -75,6 +127,7 @@ class _TambahScreenState extends State<TambahScreen> {
                 _buildTextInput(
                   label: 'Nama Transaksi',
                   icon: HugeIcons.strokeRoundedWallet01,
+                  keyboardType: TextInputType.text,
                   onSaved: (value) => _name = value!,
                   validator: (value) => value == null || value.isEmpty
                       ? 'Nama transaksi wajib diisi'
@@ -98,9 +151,32 @@ class _TambahScreenState extends State<TambahScreen> {
                   },
                 ),
                 SizedBox(height: 20),
+                GestureDetector(
+                  onTap: _selectDate,
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(HugeIcons.strokeRoundedCalendar02, color: Colors.black,),
+                        SizedBox(width: 8),
+                        Text(
+                          DateFormat('dd MMM yyyy, HH:mm')
+                              .format(_selectedDate),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
                 _buildTextInput(
                   label: 'Catatan',
                   icon: HugeIcons.strokeRoundedNoteEdit,
+                  keyboardType: TextInputType.multiline,
                   maxLines: null,
                   onSaved: (value) => _note = value ?? '',
                 ),
@@ -111,8 +187,10 @@ class _TambahScreenState extends State<TambahScreen> {
                     padding: EdgeInsets.symmetric(vertical: 16),
                     backgroundColor: Colors.pinkAccent,
                     foregroundColor: Colors.white,
-                    textStyle:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _isSpend ? Colors.pink : Colors.green),
+                    textStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: _isSpend ? Colors.pink : Colors.green),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -183,7 +261,8 @@ class _TambahScreenState extends State<TambahScreen> {
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
-        labelStyle:TextStyle(color: Colors.grey), // Warna label saat tidak fokus
+        labelStyle:
+            TextStyle(color: Colors.grey), // Warna label saat tidak fokus
         floatingLabelStyle: TextStyle(color: Colors.pink),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.pinkAccent, width: 2),
@@ -203,7 +282,8 @@ class _TambahScreenState extends State<TambahScreen> {
         ),
       ),
       cursorColor: Colors.grey,
-      keyboardType: TextInputType.multiline,
+      // keyboardType: TextInputType.multiline,
+      keyboardType: keyboardType,
       onSaved: onSaved,
       validator: validator,
       maxLines: maxLines,

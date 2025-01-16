@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart'; // Pastikan menggunakan paket Huge Icons
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
 import '../models/transaction_model.dart';
@@ -19,6 +20,7 @@ class _EditScreenState extends State<EditScreen> {
   late String _name;
   late double _amount;
   late String _note;
+  DateTime _date = DateTime.now();
 
   @override
   void initState() {
@@ -27,48 +29,99 @@ class _EditScreenState extends State<EditScreen> {
     _name = widget.transaction.name;
     _amount = widget.transaction.amount;
     _note = widget.transaction.note ?? '';
+    _date = widget.transaction.date;
+  }
+
+  void _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _date,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.pinkAccent,
+            colorScheme:
+                ColorScheme.light(primary: Colors.pink), // Warna pemilih
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(_date),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: Colors.pinkAccent,
+              colorScheme:
+                  ColorScheme.light(primary: Colors.pink), // Warna pemilih
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          _date = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
+    }
   }
 
   void _submitForm() {
-  if (_formKey.currentState!.validate()) {
-    _formKey.currentState!.save();
-    Provider.of<TransactionProvider>(context, listen: false)
-        .updateTransaction(
-      id: widget.transaction.id,
-      isSpend: _isSpend,
-      name: _name,
-      amount: _amount,
-      note: _note,
-    )
-        .then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Transaksi berhasil diperbarui!'),
-          backgroundColor: Colors.pinkAccent,
-        ),
-      );
-      Navigator.pop(
-        context,
-        TransactionModel(
-          id: widget.transaction.id,
-          isSpend: _isSpend,
-          name: _name,
-          amount: _amount,
-          date: widget.transaction.date,
-          note: _note,
-        ),
-      );
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Terjadi kesalahan, coba lagi.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    });
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Provider.of<TransactionProvider>(context, listen: false)
+          .updateTransaction(
+        id: widget.transaction.id,
+        isSpend: _isSpend,
+        name: _name,
+        amount: _amount,
+        note: _note,
+        date: _date,
+      )
+          .then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Transaksi berhasil diperbarui!'),
+            backgroundColor: Colors.pinkAccent,
+          ),
+        );
+        Navigator.pop(
+          context,
+          TransactionModel(
+            id: widget.transaction.id,
+            isSpend: _isSpend,
+            name: _name,
+            amount: _amount,
+            date: _date,
+            note: _note,
+          ),
+        );
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan, coba lagi.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +172,9 @@ class _EditScreenState extends State<EditScreen> {
                   label: 'Jumlah',
                   icon: HugeIcons.strokeRoundedMoney04,
                   keyboardType: TextInputType.number,
-                  initialValue: _amount % 1 == 0 ? _amount.toInt().toString() : _amount.toStringAsFixed(2),
+                  initialValue: _amount % 1 == 0
+                      ? _amount.toInt().toString()
+                      : _amount.toStringAsFixed(2),
                   onSaved: (value) => _amount = double.parse(value!),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -131,6 +186,31 @@ class _EditScreenState extends State<EditScreen> {
                     }
                     return null;
                   },
+                ),
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: _selectDate,
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          HugeIcons.strokeRoundedCalendar02,
+                          color: Colors.black,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          DateFormat('dd MMM yyyy, HH:mm')
+                              .format(_date),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 SizedBox(height: 20),
                 _buildTextInput(

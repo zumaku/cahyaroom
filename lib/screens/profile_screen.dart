@@ -10,12 +10,11 @@ class ProfileScreen extends StatelessWidget {
     final user = authProvider.user;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+        appBar: AppBar(
+          title: Text('Profile'),
+        ),
+        body: Center(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -34,8 +33,8 @@ class ProfileScreen extends StatelessWidget {
               user?.email ?? 'No Email',
               style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
+            Spacer(),
+            Padding(padding: EdgeInsets.all(10), child: ElevatedButton(
               onPressed: () async {
                 await authProvider.signOut();
                 Navigator.pushReplacement(
@@ -43,11 +42,31 @@ class ProfileScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               },
-              child: Text('Logout'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                backgroundColor: Colors.pinkAccent,
+                foregroundColor: Colors.white,
+                textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.pink),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Center(child: Text('Logout')),
+            )),
+            Text(
+              'Made with ❤️ by zumaku',
+              style: TextStyle(fontSize: 16, color: Colors.pinkAccent),
             ),
+            SizedBox(height: 10),
+            Text(
+              '© 2025 zumaku',
+              style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+            ),
+            SizedBox(height: 10),
           ],
-        ),
-      ),
-    );
+        )));
   }
 }
