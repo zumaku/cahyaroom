@@ -39,7 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
           : Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/cahya${Random().nextInt(4) + 1}.png"),
+                  image: AssetImage(
+                      "assets/images/cahya${Random().nextInt(4) + 1}.png"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -169,22 +170,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? Colors.red
                                 : Colors.green.shade600,
                           ),
-                          title: Flexible(
-                              child: Text(transaction.name,
+                          title: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  transaction.name,
                                   style: TextStyle(fontWeight: FontWeight.w500),
-                                  overflow: TextOverflow.ellipsis)),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                           subtitle: Text(
                             transaction.date != null
                                 ? DateFormat('HH:mm').format(transaction.date)
                                 : 'Waktu tidak tersedia',
                           ),
-                          // subtitle: TimestampConverter(timestamp: transaction.date,),
                           trailing: Text(
                             formatCurrency.format(transaction.amount),
                             style: TextStyle(fontSize: 14),
                           ),
                           onTap: () {
-                            // Navigasi ke halaman detail saat item diklik
                             Navigator.push(
                               context,
                               MaterialPageRoute(

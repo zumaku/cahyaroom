@@ -57,13 +57,8 @@ class ProfileScreen extends StatelessWidget {
               child: Center(child: Text('Logout')),
             )),
             Text(
-              'Made with ❤️ by zumaku',
+              'Made with ♡ by zumaku © 2025',
               style: TextStyle(fontSize: 16, color: Colors.pinkAccent),
-            ),
-            SizedBox(height: 10),
-            Text(
-              '© 2025 zumaku',
-              style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
             ),
             SizedBox(height: 10),
           ],
