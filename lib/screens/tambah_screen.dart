@@ -74,6 +74,7 @@ class _TambahScreenState extends State<TambahScreen> {
           .addTransaction(
         isSpend: _isSpend,
         name: _name,
+        date: _selectedDate,
         amount: _amount,
         note: _note,
       )

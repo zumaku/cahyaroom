@@ -28,6 +28,7 @@ class TransactionProvider with ChangeNotifier {
   Future<void> addTransaction({
     required bool isSpend,
     required String name,
+    required DateTime date,
     required double amount,
     required String note,
   }) async {
@@ -36,7 +37,7 @@ class TransactionProvider with ChangeNotifier {
       isSpend: isSpend,
       name: name,
       amount: amount,
-      date: DateTime.now(),
+      date: date,
       note: note,
     );
     await TransactionService().addTransaction(newTransaction);
